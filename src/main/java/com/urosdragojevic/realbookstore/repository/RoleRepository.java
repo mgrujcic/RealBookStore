@@ -37,6 +37,7 @@ public class RoleRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.warn("Role list lookup failed for user id: " + String.valueOf(userId));
         }
         return roles;
     }

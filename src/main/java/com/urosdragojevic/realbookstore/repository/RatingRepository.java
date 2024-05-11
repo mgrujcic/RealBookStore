@@ -1,5 +1,6 @@
 package com.urosdragojevic.realbookstore.repository;
 
+import com.urosdragojevic.realbookstore.audit.AuditLogger;
 import com.urosdragojevic.realbookstore.domain.Rating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RatingRepository {
+public class
+RatingRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(RatingRepository.class);
     private DataSource dataSource;
@@ -46,7 +48,9 @@ public class RatingRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.warn("Failed to create/update rating");
         }
+        AuditLogger.getAuditLogger(RatingRepository.class).audit("Create/Update rating: " + rating);
     }
 
     public List<Rating> getAll(int bookId) {
@@ -60,6 +64,7 @@ public class RatingRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.warn("Failed to list all ratings");
         }
         return ratingList;
     }
